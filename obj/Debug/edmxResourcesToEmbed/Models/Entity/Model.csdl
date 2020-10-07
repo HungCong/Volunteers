@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="VolunteerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Journey">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Location_Go" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Destination" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="StartDate" Type="DateTime" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+    <Property Name="Resgister" Type="Int32" />
+    <Property Name="Join" Type="Int32" />
+    <NavigationProperty Name="Round_Volunteer" Relationship="Self.FK_Round_Volunteer_Journey" FromRole="Journey" ToRole="Round_Volunteer" />
+    <Property Name="Status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Material">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Volunteers_ID" Type="Int64" />
+    <Property Name="Form" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="TotalMoney" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Material_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="Place" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Material_Support" Relationship="Self.FK_Material_Support_Material" FromRole="Material" ToRole="Material_Support" />
+    <NavigationProperty Name="Volunteer" Relationship="Self.FK_Material_Volunteers" FromRole="Material" ToRole="Volunteers" />
+  </EntityType>
+  <EntityType Name="Material_Support">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Material_ID" Type="Int64" />
+    <Property Name="Round_Volunteer_ID" Type="Int64" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="TotalMoney" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="Material" Relationship="Self.FK_Material_Support_Material" FromRole="Material_Support" ToRole="Material" />
+    <NavigationProperty Name="Round_Volunteer" Relationship="Self.FK_Material_Support_Round_Volunteer" FromRole="Material_Support" ToRole="Round_Volunteer" />
+  </EntityType>
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fullname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Birthday" Type="DateTime" Precision="3" />
+    <Property Name="Phone" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Form" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="Round_Volunteer_ID" Type="Int64" />
+    <NavigationProperty Name="Round_Volunteer" Relationship="Self.FK_People_Round_Volunteer" FromRole="People" ToRole="Round_Volunteer" />
+  </EntityType>
+  <EntityType Name="Purchase">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Volunteers_ID" Type="Int64" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="Place" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Volunteer" Relationship="Self.FK_Purchase_Volunteers" FromRole="Purchase" ToRole="Volunteers" />
+  </EntityType>
+  <EntityType Name="Round_Volunteer">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="Place" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="StartDate" Type="DateTime" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+    <Property Name="Register" Type="Int32" />
+    <Property Name="Journey_ID" Type="Int64" />
+    <Property Name="Status" Type="Boolean" />
+    <NavigationProperty Name="Journey" Relationship="Self.FK_Round_Volunteer_Journey" FromRole="Round_Volunteer" ToRole="Journey" />
+    <NavigationProperty Name="Material_Support" Relationship="Self.FK_Material_Support_Round_Volunteer" FromRole="Round_Volunteer" ToRole="Material_Support" />
+    <NavigationProperty Name="People" Relationship="Self.FK_People_Round_Volunteer" FromRole="Round_Volunteer" ToRole="People" />
+    <NavigationProperty Name="Joins" Relationship="VolunteerModel.FK_Join_Round_Volunteer" FromRole="Round_Volunteer" ToRole="Join" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Account" Type="String" MaxLength="250" FixedLength="true" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="250" FixedLength="true" Unicode="true" />
+    <Property Name="Fullname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="String" MaxLength="250" FixedLength="true" Unicode="true" />
+    <Property Name="Status" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Volunteer">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fullname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Birthday" Type="DateTime" Precision="3" />
+    <Property Name="Phone" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="250" FixedLength="true" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="Int32" />
+    <Property Name="RoleName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Materials" Relationship="Self.FK_Material_Volunteers" FromRole="Volunteers" ToRole="Material" />
+    <NavigationProperty Name="Purchases" Relationship="Self.FK_Purchase_Volunteers" FromRole="Volunteers" ToRole="Purchase" />
+    <NavigationProperty Name="Joins" Relationship="VolunteerModel.FK_Join_Volunteers" FromRole="Volunteer" ToRole="Join" />
+  </EntityType>
+  <Association Name="FK_Round_Volunteer_Journey">
+    <End Role="Journey" Type="Self.Journey" Multiplicity="0..1" />
+    <End Role="Round_Volunteer" Type="Self.Round_Volunteer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Journey">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Round_Volunteer">
+        <PropertyRef Name="Journey_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Material_Support_Material">
+    <End Role="Material" Type="Self.Material" Multiplicity="0..1" />
+    <End Role="Material_Support" Type="Self.Material_Support" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Material">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Material_Support">
+        <PropertyRef Name="Material_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Material_Volunteers">
+    <End Role="Volunteers" Type="Self.Volunteer" Multiplicity="0..1" />
+    <End Role="Material" Type="Self.Material" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Volunteers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Material">
+        <PropertyRef Name="Volunteers_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Material_Support_Round_Volunteer">
+    <End Role="Round_Volunteer" Type="Self.Round_Volunteer" Multiplicity="0..1" />
+    <End Role="Material_Support" Type="Self.Material_Support" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Round_Volunteer">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Material_Support">
+        <PropertyRef Name="Round_Volunteer_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_People_Round_Volunteer">
+    <End Role="Round_Volunteer" Type="Self.Round_Volunteer" Multiplicity="0..1" />
+    <End Role="People" Type="Self.Person" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Round_Volunteer">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="People">
+        <PropertyRef Name="Round_Volunteer_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Purchase_Volunteers">
+    <End Role="Volunteers" Type="Self.Volunteer" Multiplicity="0..1" />
+    <End Role="Purchase" Type="Self.Purchase" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Volunteers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Purchase">
+        <PropertyRef Name="Volunteers_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="VolunteerEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Journeys" EntityType="Self.Journey" />
+    <EntitySet Name="Materials" EntityType="Self.Material" />
+    <EntitySet Name="Material_Support" EntityType="Self.Material_Support" />
+    <EntitySet Name="People" EntityType="Self.Person" />
+    <EntitySet Name="Purchases" EntityType="Self.Purchase" />
+    <EntitySet Name="Round_Volunteer" EntityType="Self.Round_Volunteer" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="Volunteers" EntityType="Self.Volunteer" />
+    <AssociationSet Name="FK_Round_Volunteer_Journey" Association="Self.FK_Round_Volunteer_Journey">
+      <End Role="Journey" EntitySet="Journeys" />
+      <End Role="Round_Volunteer" EntitySet="Round_Volunteer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Material_Support_Material" Association="Self.FK_Material_Support_Material">
+      <End Role="Material" EntitySet="Materials" />
+      <End Role="Material_Support" EntitySet="Material_Support" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Material_Volunteers" Association="Self.FK_Material_Volunteers">
+      <End Role="Volunteers" EntitySet="Volunteers" />
+      <End Role="Material" EntitySet="Materials" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Material_Support_Round_Volunteer" Association="Self.FK_Material_Support_Round_Volunteer">
+      <End Role="Round_Volunteer" EntitySet="Round_Volunteer" />
+      <End Role="Material_Support" EntitySet="Material_Support" />
+    </AssociationSet>
+    <AssociationSet Name="FK_People_Round_Volunteer" Association="Self.FK_People_Round_Volunteer">
+      <End Role="Round_Volunteer" EntitySet="Round_Volunteer" />
+      <End Role="People" EntitySet="People" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Purchase_Volunteers" Association="Self.FK_Purchase_Volunteers">
+      <End Role="Volunteers" EntitySet="Volunteers" />
+      <End Role="Purchase" EntitySet="Purchases" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(VolunteerModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(VolunteerModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <EntitySet Name="Joins" EntityType="VolunteerModel.Join" />
+    <AssociationSet Name="FK_Join_Round_Volunteer" Association="VolunteerModel.FK_Join_Round_Volunteer">
+      <End Role="Round_Volunteer" EntitySet="Round_Volunteer" />
+      <End Role="Join" EntitySet="Joins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Join_Volunteers" Association="VolunteerModel.FK_Join_Volunteers">
+      <End Role="Volunteer" EntitySet="Volunteers" />
+      <End Role="Join" EntitySet="Joins" />
+    </AssociationSet>
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="Join">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Round_Volunteer_ID" Type="Int64" />
+    <Property Name="Volunteers_ID" Type="Int64" />
+    <NavigationProperty Name="Round_Volunteer" Relationship="VolunteerModel.FK_Join_Round_Volunteer" FromRole="Join" ToRole="Round_Volunteer" />
+    <NavigationProperty Name="Volunteer" Relationship="VolunteerModel.FK_Join_Volunteers" FromRole="Join" ToRole="Volunteer" />
+  </EntityType>
+  <Association Name="FK_Join_Round_Volunteer">
+    <End Type="VolunteerModel.Round_Volunteer" Role="Round_Volunteer" Multiplicity="0..1" />
+    <End Type="VolunteerModel.Join" Role="Join" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Round_Volunteer">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Join">
+        <PropertyRef Name="Round_Volunteer_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Join_Volunteers">
+    <End Type="VolunteerModel.Volunteer" Role="Volunteer" Multiplicity="0..1" />
+    <End Type="VolunteerModel.Join" Role="Join" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Volunteer">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Join">
+        <PropertyRef Name="Volunteers_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

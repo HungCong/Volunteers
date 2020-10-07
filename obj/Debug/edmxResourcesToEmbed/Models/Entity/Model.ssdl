@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="VolunteerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Join">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Round_Volunteer_ID" Type="bigint" />
+    <Property Name="Volunteers_ID" Type="bigint" />
+  </EntityType>
+  <EntityType Name="Journey">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Location_Go" Type="nvarchar" MaxLength="250" />
+    <Property Name="Destination" Type="nvarchar" MaxLength="250" />
+    <Property Name="StartDate" Type="datetime" />
+    <Property Name="EndDate" Type="datetime" />
+    <Property Name="Resgister" Type="int" />
+    <Property Name="Join" Type="int" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="Material">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Volunteers_ID" Type="bigint" />
+    <Property Name="Form" Type="nvarchar" MaxLength="250" />
+    <Property Name="TotalMoney" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Material_Name" Type="nvarchar" MaxLength="250" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="Place" Type="nvarchar" MaxLength="350" />
+  </EntityType>
+  <EntityType Name="Material_Support">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Material_ID" Type="bigint" />
+    <Property Name="Round_Volunteer_ID" Type="bigint" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="TotalMoney" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="People">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Fullname" Type="nvarchar" MaxLength="250" />
+    <Property Name="Birthday" Type="datetime" />
+    <Property Name="Phone" Type="nchar" MaxLength="100" />
+    <Property Name="Email" Type="nchar" MaxLength="100" />
+    <Property Name="Address" Type="nvarchar" MaxLength="250" />
+    <Property Name="Form" Type="nvarchar" MaxLength="150" />
+    <Property Name="Description" Type="nvarchar" MaxLength="350" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="Round_Volunteer_ID" Type="bigint" />
+  </EntityType>
+  <EntityType Name="Purchase">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Volunteers_ID" Type="bigint" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="Place" Type="nvarchar" MaxLength="250" />
+    <Property Name="Description" Type="nvarchar" MaxLength="350" />
+  </EntityType>
+  <EntityType Name="Round_Volunteer">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="Place" Type="nvarchar" MaxLength="250" />
+    <Property Name="StartDate" Type="datetime" />
+    <Property Name="EndDate" Type="datetime" />
+    <Property Name="Register" Type="int" />
+    <Property Name="Journey_ID" Type="bigint" />
+    <Property Name="Status" Type="bit" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Account" Type="nchar" MaxLength="250" />
+    <Property Name="Password" Type="nchar" MaxLength="250" />
+    <Property Name="Fullname" Type="nvarchar" MaxLength="250" />
+    <Property Name="Image" Type="nchar" MaxLength="250" />
+    <Property Name="Status" Type="bit" />
+  </EntityType>
+  <EntityType Name="Volunteers">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Fullname" Type="nvarchar" MaxLength="250" />
+    <Property Name="Birthday" Type="datetime" />
+    <Property Name="Phone" Type="nchar" MaxLength="100" />
+    <Property Name="Email" Type="nchar" MaxLength="250" />
+    <Property Name="Address" Type="nvarchar" MaxLength="450" />
+    <Property Name="Type" Type="int" />
+    <Property Name="RoleName" Type="nvarchar" MaxLength="250" />
+  </EntityType>
+  <Association Name="FK_Join_Round_Volunteer">
+    <End Role="Round_Volunteer" Type="Self.Round_Volunteer" Multiplicity="0..1" />
+    <End Role="Join" Type="Self.Join" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Round_Volunteer">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Join">
+        <PropertyRef Name="Round_Volunteer_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Join_Volunteers">
+    <End Role="Volunteers" Type="Self.Volunteers" Multiplicity="0..1" />
+    <End Role="Join" Type="Self.Join" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Volunteers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Join">
+        <PropertyRef Name="Volunteers_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Material_Support_Material">
+    <End Role="Material" Type="Self.Material" Multiplicity="0..1" />
+    <End Role="Material_Support" Type="Self.Material_Support" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Material">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Material_Support">
+        <PropertyRef Name="Material_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Material_Support_Round_Volunteer">
+    <End Role="Round_Volunteer" Type="Self.Round_Volunteer" Multiplicity="0..1" />
+    <End Role="Material_Support" Type="Self.Material_Support" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Round_Volunteer">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Material_Support">
+        <PropertyRef Name="Round_Volunteer_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Material_Volunteers">
+    <End Role="Volunteers" Type="Self.Volunteers" Multiplicity="0..1" />
+    <End Role="Material" Type="Self.Material" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Volunteers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Material">
+        <PropertyRef Name="Volunteers_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_People_Round_Volunteer">
+    <End Role="Round_Volunteer" Type="Self.Round_Volunteer" Multiplicity="0..1" />
+    <End Role="People" Type="Self.People" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Round_Volunteer">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="People">
+        <PropertyRef Name="Round_Volunteer_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Purchase_Volunteers">
+    <End Role="Volunteers" Type="Self.Volunteers" Multiplicity="0..1" />
+    <End Role="Purchase" Type="Self.Purchase" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Volunteers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Purchase">
+        <PropertyRef Name="Volunteers_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Round_Volunteer_Journey">
+    <End Role="Journey" Type="Self.Journey" Multiplicity="0..1" />
+    <End Role="Round_Volunteer" Type="Self.Round_Volunteer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Journey">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Round_Volunteer">
+        <PropertyRef Name="Journey_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="VolunteerModelStoreContainer">
+    <EntitySet Name="Join" EntityType="Self.Join" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Journey" EntityType="Self.Journey" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Material" EntityType="Self.Material" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Material_Support" EntityType="Self.Material_Support" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="People" EntityType="Self.People" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Purchase" EntityType="Self.Purchase" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Round_Volunteer" EntityType="Self.Round_Volunteer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Volunteers" EntityType="Self.Volunteers" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Join_Round_Volunteer" Association="Self.FK_Join_Round_Volunteer">
+      <End Role="Round_Volunteer" EntitySet="Round_Volunteer" />
+      <End Role="Join" EntitySet="Join" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Join_Volunteers" Association="Self.FK_Join_Volunteers">
+      <End Role="Volunteers" EntitySet="Volunteers" />
+      <End Role="Join" EntitySet="Join" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Material_Support_Material" Association="Self.FK_Material_Support_Material">
+      <End Role="Material" EntitySet="Material" />
+      <End Role="Material_Support" EntitySet="Material_Support" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Material_Support_Round_Volunteer" Association="Self.FK_Material_Support_Round_Volunteer">
+      <End Role="Round_Volunteer" EntitySet="Round_Volunteer" />
+      <End Role="Material_Support" EntitySet="Material_Support" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Material_Volunteers" Association="Self.FK_Material_Volunteers">
+      <End Role="Volunteers" EntitySet="Volunteers" />
+      <End Role="Material" EntitySet="Material" />
+    </AssociationSet>
+    <AssociationSet Name="FK_People_Round_Volunteer" Association="Self.FK_People_Round_Volunteer">
+      <End Role="Round_Volunteer" EntitySet="Round_Volunteer" />
+      <End Role="People" EntitySet="People" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Purchase_Volunteers" Association="Self.FK_Purchase_Volunteers">
+      <End Role="Volunteers" EntitySet="Volunteers" />
+      <End Role="Purchase" EntitySet="Purchase" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Round_Volunteer_Journey" Association="Self.FK_Round_Volunteer_Journey">
+      <End Role="Journey" EntitySet="Journey" />
+      <End Role="Round_Volunteer" EntitySet="Round_Volunteer" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

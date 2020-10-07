@@ -1,0 +1,139 @@
+﻿
+@{
+    ViewBag.Title = "Thêm tình nguyện viên";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper" style="min-height: 946px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Thêm tình nguyện viên
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-users"></i> Quản lý người dùng</a></li>
+            <li><a href="/Volunteer">Tình nguyện viên</a></li>
+            <li class="active">Thêm mới tình nguyện viên</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-8">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <!-- form start -->
+                    @using (Html.BeginForm("AddVolunteer", "Volunteer", FormMethod.Post, new { id = "frmAddVolunteer" }))
+                    {
+                        <div class="box-body">
+                            <div class="col-lg-6 form-group">
+                                <label>Họ và tên</label>
+                                <input type="text" class="form-control" name="Fullname" placeholder="Nhập họ và tên">
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <label>Số điện thoại</label>
+                                <input type="number" class="form-control" name="Phone" placeholder="Nhập số điện thoại">
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <label>Ngày sinh:</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" name="Birthday" class="form-control datepicker" data-inputmask="'alias': 'dd/mm/yyyy'">
+                                </div><!-- /.input group -->
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <label>Email</label>
+                                <input type="text" class="form-control" name="Email" placeholder="Nhập Email">
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <label>Địa chỉ</label>
+                                <input type="text" class="form-control" name="Address" placeholder="Nhập địa chỉ">
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <label>Vai trò</label>
+                                <select class="form-control select2" name="RoleName">
+                                    <option value="Tình nguyện viên" selected="selected">Tình nguyện viên</option>
+                                    <option value="Trưởng nhóm">Trưởng nhóm</option>
+                                </select>
+                            </div><!-- /.form-group -->
+                        </div><!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">Thêm mới</button>
+                        </div>
+                    }
+                </div><!-- /.box -->
+
+            </div><!--/.col (left) -->
+        </div>   <!-- /.row -->
+    </section><!-- /.content -->
+</div>
+
+@section jsAdmin{
+
+    <script>
+
+        $(function () {
+            var date = new Date();
+            var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            $(".datepicker").datepicker({
+                format: "dd-mm-yyyy",
+                autoclose: true,
+                todayHighlight: true,
+                endDate: "1-1-2002"
+            }).datepicker('update', new Date());
+
+            $('.datepicker').datepicker('setDate', today);
+
+
+             jQuery.validator.addMethod("phonenu", function (value, element) {
+                if (/^(09[0-9]|07[0|6|7|8|9]|03[2-9]|08[1-5])+([0-9]{7})\b/g.test(value)) {
+                    return true;
+                } else {
+                    return false;
+                };
+             }, "Invalid phone number");
+
+            jQuery.validator.addMethod("email_regex", function (value, element) {
+                if (/^[a-z][a-z0-9_\.]{5,32}@@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/g.test(value)) {
+                    return true;
+                } else {
+                    return false;
+                };
+            }, "Invalid email");
+            //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+            $("#frmAddVolunteer").validate({
+                rules: {
+                    Fullname: "required",
+                    Address: "required",
+                    Phone: {
+                        required: true,
+                        phonenu: true
+                    },
+                    Email: {
+                        required: true,
+                        email_regex: true
+                    }
+                },
+                messages: {
+                    Fullname: "Vui lòng nhập họ và tên",
+                    Address: "Bạn chưa nhập địa chỉ",
+                    Phone: {
+                        required: "Vui lòng số điện thoại",
+                        phonenu: "Số điện thoại không hợp lệ"
+                    },
+                    Email: {
+                        required: "Vui lòng email",
+                        email_regex: "Email không hợp lệ"
+                    }
+                }
+            });
+
+        });
+    </script>
+
+}
