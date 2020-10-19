@@ -19,7 +19,9 @@ namespace Volunteers.Models.Entity
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string Place { get; set; }
         public string Description { get; set; }
+        public Nullable<long> Material_ID { get; set; }
     
         public virtual Volunteer Volunteer { get; set; }
+        public virtual Material Material { get; set; }
     }
 }

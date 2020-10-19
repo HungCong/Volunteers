@@ -18,6 +18,7 @@ namespace Volunteers.Models.Entity
         public Material()
         {
             this.Material_Support = new HashSet<Material_Support>();
+            this.Purchases = new HashSet<Purchase>();
         }
     
         public long ID { get; set; }
@@ -27,9 +28,13 @@ namespace Volunteers.Models.Entity
         public string Material_Name { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string Place { get; set; }
+        public Nullable<int> Quantity { get; set; }
+        public Nullable<bool> Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Material_Support> Material_Support { get; set; }
         public virtual Volunteer Volunteer { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Purchase> Purchases { get; set; }
     }
 }

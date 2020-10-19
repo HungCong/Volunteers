@@ -20,6 +20,8 @@ namespace Volunteers.Models.Entity
             this.Materials = new HashSet<Material>();
             this.Purchases = new HashSet<Purchase>();
             this.Joins = new HashSet<Join>();
+            this.Round_Volunteer = new HashSet<Round_Volunteer>();
+            this.Users = new HashSet<User>();
         }
     
         public long ID { get; set; }
@@ -30,6 +32,8 @@ namespace Volunteers.Models.Entity
         public string Address { get; set; }
         public Nullable<int> Type { get; set; }
         public string RoleName { get; set; }
+        public Nullable<bool> Sex { get; set; }
+        public Nullable<bool> Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Material> Materials { get; set; }
@@ -37,5 +41,9 @@ namespace Volunteers.Models.Entity
         public virtual ICollection<Purchase> Purchases { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Join> Joins { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Round_Volunteer> Round_Volunteer { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User> Users { get; set; }
     }
 }

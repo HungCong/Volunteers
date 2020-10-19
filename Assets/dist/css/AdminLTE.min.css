@@ -4399,3 +4399,7 @@ table.text-center, table.text-center td, table.text-center th {
             white-space: normal !important
         }
 }
+
+.ui-autocomplete {
+    z-index: 2150000000 !important;
+}

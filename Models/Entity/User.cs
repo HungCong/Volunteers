@@ -20,5 +20,9 @@ namespace Volunteers.Models.Entity
         public string Fullname { get; set; }
         public string Image { get; set; }
         public Nullable<bool> Status { get; set; }
+        public Nullable<int> Type { get; set; }
+        public Nullable<long> Volunteers_ID { get; set; }
+    
+        public virtual Volunteer Volunteer { get; set; }
     }
 }

@@ -1,0 +1,414 @@
+﻿
+@using Volunteers.Models.DTO;
+@using Volunteers.Models.Entity;
+@{
+    ViewBag.Title = "Vật chất cho đợt tình nguyện";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var lstTotalMoney = ViewBag.lstTotalMoney as List<Materal_SupportDTO>;
+    var lstMaterial = ViewBag.LstMaterial as List<Materal_SupportDTO>;
+    var round_volunteer = ViewBag.Round_Volunteer as Round_Volunteer;
+    var lstSelectMaterial = ViewBag.lstSelectMaterial as List<Material>;
+    int dem1 = 0, dem2 = 0;
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Vật chất cho đợt TN tại: <span style="color: blue">@round_volunteer.Place</span>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/Admin/Home/Round_Volunteer_Tested"><i class="fa fa-dashboard"></i>Đợt TN đã duyệt</a></li>
+            <li class="active">Vật chất đợt TN</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box-header">
+                    @if(round_volunteer.EndDate > DateTime.Now)
+                    {
+                        <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#addMaterial">Thêm mới</button>
+                    }
+                    
+                    @if (TempData["add_success"] != null)
+                    {
+                        <div class="alert alert-success text-center" id="AlertBox">
+                            @TempData["add_success"]
+                        </div>
+                    }
+                </div><!-- /.box-header -->
+            </div>
+            <div class="col-xs-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Vật chất</h3>
+                    </div><!-- /.box-header -->
+
+                    <div class="box-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Vật chất</th>
+                                    <th>Số lượng</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (lstMaterial != null)
+                                {
+                                    foreach (var item in lstMaterial)
+                                    {
+                                        dem1++;
+                                        <tr>
+                                            <td>@dem1</td>
+                                            <td>@item.Material_Name</td>
+                                            <td>@item.Quantity</td>
+                                            <td>
+                                                @if (round_volunteer.EndDate > DateTime.Now)
+                                                {
+                                                    <button class="btn btn-info btnEdit" data-id="@item.ID" title="Sửa vật chất đợt tình nguyện"><i class="fa fa-edit"></i></button>
+                                                    <button class="btn btn-danger btnDelete" data-id="@item.ID" title="Xóa vật chất đợt tình nguyện"><i class="fa fa-remove"></i></button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Vật chất</th>
+                                    <th>Số lượng</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+
+            </div><!-- /.col -->
+            <div class="col-xs-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Tiền mặt</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Vật chất</th>
+                                    <th>Số tiền</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (lstTotalMoney != null)
+                                {
+                                    foreach (var item in lstTotalMoney)
+                                    {
+                                        dem2++;
+                                        <tr>
+                                            <td>@dem2</td>
+                                            <td>@item.Material_Name</td>
+                                            <td>@item.TotalMoney.Value.ToString("N0")</td>
+                                            <td>
+                                                @if (round_volunteer.EndDate > DateTime.Now)
+                                                {
+                                                    <button class="btn btn-info btnEdit" data-id="@item.ID" title="Sửa vật chất đợt tình nguyện"><i class="fa fa-edit"></i></button>
+                                                    <button class="btn btn-danger btnDelete" data-id="@item.ID" title="Xóa vật chất đợt tình nguyện"><i class="fa fa-remove"></i></button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Vật chất</th>
+                                    <th>Số tiền</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+<!-- The Modal -->
+
+<div class="modal" id="addMaterial">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm mới vật chất cho đợt tình nguyện</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                @using (Html.BeginForm("AddMaterialSupport", "Home", FormMethod.Post))
+                {
+                    <input type="hidden" name="Round_Volunteer_ID" value="@round_volunteer.ID" />
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label>Chọn vật chất</label>
+                            <select class="form-control select2" name="Material_ID" id="Material_ID">
+                                <option value="" selected="selected">--Chọn vật chất--</option>
+                                @foreach (var item in lstSelectMaterial)
+                                {
+                                    <option value="@item.ID">@(item.Material_Name == "Tiền mặt"?item.Material_Name + " : " + item.TotalMoney.Value.ToString("N0") + " vnđ" : item.Material_Name)</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group" id="inpQuantity" style="display: none">
+                            <label>Số lượng</label>
+                            <input type="number" class="form-control" name="Quantity" id="Quantity" min="2" placeholder="Nhập số lượng vật chất">
+                            <p class="help-block"></p>
+                        </div>
+                        <div class="form-group" id="inpTotalMoney" style="display: none">
+                            <label>Số tiền</label>
+                            <input type="number" class="form-control" name="TotalMoney" id="TotalMoney" min="100000" placeholder="Nhập số tiền">
+                            <p class="help-block"></p>
+                        </div>
+                    </div><!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Thêm mới</button>
+                    </div>
+                }
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="EditMaterial">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Sửa vật chất cho đợt tình nguyện</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                @using (Html.BeginForm("EditMaterialSupport", "Home", FormMethod.Post))
+                {
+                    <input type="hidden" name="ID" id="ID" />
+                    <input type="hidden" name="Round_Volunteer_ID" value="@round_volunteer.ID" />
+                    <input type="hidden" name="Ex_Quantity" id="Ex_Quantity" />
+                    <input type="hidden" name="Ex_TotalMoney" id="Ex_TotalMoney" />
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label>Chọn vật chất</label>
+                            <select class="form-control select2" name="Material_ID" id="Edit_Material_ID">
+                                <option value="" selected="selected">--Chọn vật chất--</option>
+                                @foreach (var item in lstSelectMaterial)
+                                {
+                                    <option value="@item.ID">@(item.Material_Name == "Tiền mặt"?item.Material_Name + " : " + item.TotalMoney.Value.ToString("N0") + " vnđ" : item.Material_Name)</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group" id="Edit_inpQuantity" style="display: none">
+                            <label>Số lượng</label>
+                            <input type="number" class="form-control" name="Quantity" id="Edit_Quantity" min="2" placeholder="Nhập số lượng vật chất">
+                            <p class="help-block"></p>
+                        </div>
+                        <div class="form-group" id="Edit_inpTotalMoney" style="display: none">
+                            <label>Số tiền</label>
+                            <input type="number" class="form-control" name="TotalMoney" id="Edit_TotalMoney" min="100000" placeholder="Nhập số tiền">
+                            <p class="help-block"></p>
+                        </div>
+                    </div><!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Sửa</button>
+                    </div>
+                }
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section jsAdmin{
+
+    <script>
+        //nếu không có thao tác gì thì ẩn đi
+        $('#AlertBox').removeClass('hide');
+
+        //Sau khi hiển thị lên thì delay 1s và cuộn lên trên sử dụng slideup
+        $('#AlertBox').delay(2000).slideUp(500);
+        $(function () {
+            $('#Material_ID').change(function () {
+                $.ajax({
+                    data: { ID: $(this).val() },
+                    url: '/Admin/Home/getMaterialByID',
+                    dataType: 'Json',
+                    type: 'POST',
+                    success: function (res) {
+                        if (res.Form == "Tiền mặt") {
+                            $('#inpQuantity').css("display", "none");
+                            $('#inpQuantity').removeAttr("required");
+                            $('#inpTotalMoney').css("display", "block");
+                            $('#inpTotalMoney').attr("required");
+                            $('#TotalMoney').attr("max", res.TotalMoney);
+                            $('.help-block').text("Số tiền còn: " + res.TotalMoney + " vnđ");
+                        } else if (res.Form == "Hiện vật"){
+                            $('#inpTotalMoney').css("display", "none");
+                            $('#inpTotalMoney').removeAttr("required");
+                            $('#inpQuantity').css("display", "block");
+                            $('#inpQuantity').attr("required");
+                            $('#Quantity').attr("max", res.Quantity);
+                            $('.help-block').text("Số lượng còn: " + res.Quantity);
+                        }
+                    }
+                })
+            });
+
+            $('#Edit_Material_ID').change(function () {
+                $.ajax({
+                    data: { ID: $(this).val() },
+                    url: '/Admin/Home/getMaterialByID',
+                    dataType: 'Json',
+                    type: 'POST',
+                    success: function (res) {
+                        if (res.Form == "Tiền mặt") {
+                            $('#Edit_inpQuantity').css("display", "none");
+                            $('#Edit_inpQuantity').removeAttr("required");
+                            $('#Edit_inpTotalMoney').css("display", "block");
+                            $('#Edit_inpTotalMoney').attr("required");
+                            $('#Edit_TotalMoney').attr("max", res.TotalMoney);
+                            $('.help-block').text("Số tiền còn: " + res.TotalMoney + " vnđ");
+                        } else if (res.Form == "Hiện vật"){
+                            $('#Edit_inpTotalMoney').css("display", "none");
+                            $('#Edit_inpTotalMoney').removeAttr("required");
+                            $('#Edit_inpQuantity').css("display", "block");
+                            $('#Edit_inpQuantity').attr("required");
+                            $('#Edit_Quantity').attr("max", res.Quantity);
+                            $('.help-block').text("Số lượng còn: " + res.Quantity);
+                        }
+                    }
+                })
+            });
+
+
+            $('.btnEdit').click(function () {
+                $('#EditMaterial').modal("show");
+                $.ajax({
+                    data: { ID: $(this).data('id') },
+                    url: '/Admin/Home/FindMaterialSupport',
+                    dataType: 'Json',
+                    type: 'POST',
+                    success: function (res) {
+                        $('#ID').val(res.ID);
+                        $('#Ex_Quantity').val(res.Quantity);
+                        $('#Ex_TotalMoney').val(res.TotalMoney);
+                        $('select#Edit_Material_ID option[value="' + res.Material_ID + '"]').attr('selected', 'selected');
+                        if (res.Quantity != null) {
+                            $('#Edit_inpTotalMoney').css("display", "none");
+                            $('#Edit_inpTotalMoney').removeAttr("required");
+                            $('#Edit_inpQuantity').css("display", "block");
+                            $('#Edit_inpQuantity').attr("required");
+                            $('#Edit_Quantity').val(res.Quantity);
+                        } else if (res.TotalMoney != null){
+                            $('#Edit_inpQuantity').css("display", "none");
+                            $('#Edit_inpQuantity').removeAttr("required");
+                            $('#Edit_inpTotalMoney').css("display", "block");
+                            $('#Edit_inpTotalMoney').attr("required");
+                            $('#Edit_TotalMoney').val(res.TotalMoney);
+                        }
+                    }
+                })
+            });
+
+             // add the rule here
+            $.validator.addMethod("select_validate", function (value, element, arg) {
+                return arg !== value;
+            }, "Value must not equal arg.");
+             //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+            $("#frmAdd").validate({
+                rules: {
+                    Material_ID: { select_validate: "" }
+                },
+                messages: {
+                    Material_ID: { select_validate: "Bạn chưa chọn vật chất!" }
+                }
+            });
+
+             $('.btnDelete').off('click').on('click', function () {
+                const notice = PNotify.notice({
+                    title: 'Thông báo',
+                    text: 'Bạn thật sự muốn xóa?',
+                    icon: 'fa fa-question-circle',
+                    width: '360px',
+                    minHeight: '110px',
+                    hide: false,
+                    closer: false,
+                    sticker: false,
+                    destroy: true,
+                    stack: new PNotify.Stack({
+                        dir1: 'down',
+                        modal: true,
+                        firstpos1: 25,
+                        overlayClose: false
+                    }),
+                    modules: new Map([
+                        ...PNotify.defaultModules,
+                        [PNotifyConfirm, {
+                            confirm: true
+                        }]
+                    ])
+                });
+
+                notice.on('pnotify:confirm', () =>
+                    $.ajax({
+                        data: {ID: $(this).data('id')},
+                        url: '/Admin/Home/DeleteMaterial',
+                        dataType: 'Json',
+                        type: 'POST',
+                        success: function (res) {
+                            if (res.status == true) {
+                                window.location.href = "/Admin/Home/ListMaterial_Support/" + @round_volunteer.ID;
+                                PNotify.success({
+                                    title: 'THÔNG BÁO!!',
+                                    text: 'Xóa thành công.'
+                                });
+                            }
+                        }
+                    })
+
+                );
+
+
+            });
+        });
+    </script>
+
+}

@@ -29,11 +29,13 @@ namespace Volunteers.Controllers
             try
             {
                 var model = new Journey();
+                
                 model.Location_Go = entity.Location_Go;
                 model.Destination = entity.Destination;
                 model.StartDate = entity.StartDate;
                 model.EndDate = entity.EndDate;
-                model.Resgister = entity.Resgister;
+                model.Journey_Name = entity.Journey_Name;
+
                 if (entity.StartDate > DateTime.Now)
                     model.Status = 0;
                 else if (entity.StartDate <= DateTime.Now && DateTime.Now <= entity.EndDate)

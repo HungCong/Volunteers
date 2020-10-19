@@ -128,12 +128,26 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\JourneyController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MaterialController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PurchaseController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\VolunteerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JourneyController.cs" />
+    <Compile Include="Controllers\ReviewController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\VolunteerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Business\Round_VolunteerBusiness.cs" />
+    <Compile Include="Models\DTO\Materal_SupportDTO.cs" />
+    <Compile Include="Models\DTO\MaterialDTO.cs" />
+    <Compile Include="Models\DTO\PurchaseDTO.cs" />
+    <Compile Include="Models\DTO\RoundVolunteerDTO.cs" />
     <Compile Include="Models\Entity\Join.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -165,6 +179,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entity\Purchase.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entity\Review.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entity\Round_Volunteer.cs">
@@ -223,12 +240,7 @@
     <Content Include="Assets\dist\css\skins\_all-skins.css" />
     <Content Include="Assets\dist\css\skins\_all-skins.min.css" />
     <Content Include="Assets\dist\img\avatar.png" />
-    <Content Include="Assets\dist\img\avatar04.png" />
-    <Content Include="Assets\dist\img\avatar2.png" />
-    <Content Include="Assets\dist\img\avatar3.png" />
     <Content Include="Assets\dist\img\avatar5.png" />
-    <Content Include="Assets\dist\img\boxed-bg.jpg" />
-    <Content Include="Assets\dist\img\boxed-bg.png" />
     <Content Include="Assets\dist\img\credit\american-express.png" />
     <Content Include="Assets\dist\img\credit\cirrus.png" />
     <Content Include="Assets\dist\img\credit\mastercard.png" />
@@ -236,18 +248,6 @@
     <Content Include="Assets\dist\img\credit\paypal.png" />
     <Content Include="Assets\dist\img\credit\paypal2.png" />
     <Content Include="Assets\dist\img\credit\visa.png" />
-    <Content Include="Assets\dist\img\default-50x50.gif" />
-    <Content Include="Assets\dist\img\icons.png" />
-    <Content Include="Assets\dist\img\photo1.png" />
-    <Content Include="Assets\dist\img\photo2.png" />
-    <Content Include="Assets\dist\img\user1-128x128.jpg" />
-    <Content Include="Assets\dist\img\user2-160x160.jpg" />
-    <Content Include="Assets\dist\img\user3-128x128.jpg" />
-    <Content Include="Assets\dist\img\user4-128x128.jpg" />
-    <Content Include="Assets\dist\img\user5-128x128.jpg" />
-    <Content Include="Assets\dist\img\user6-128x128.jpg" />
-    <Content Include="Assets\dist\img\user7-128x128.jpg" />
-    <Content Include="Assets\dist\img\user8-128x128.jpg" />
     <Content Include="Assets\dist\js\app.js" />
     <Content Include="Assets\dist\js\app.min.js" />
     <Content Include="Assets\dist\js\demo.js" />
@@ -979,6 +979,7 @@
     <Content Include="Assets\plugins\timepicker\bootstrap-timepicker.js" />
     <Content Include="Assets\plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="Assets\plugins\timepicker\bootstrap-timepicker.min.js" />
+    <Content Include="Assets\rating.js" />
     <Content Include="Assets\style.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -1086,7 +1087,6 @@
     <Content Include="Assets\build\less\users-list.less" />
     <Content Include="Assets\build\less\variables.less" />
     <Content Include="Assets\dist\img\credit\Thumbs.db" />
-    <Content Include="Assets\dist\img\Thumbs.db" />
     <Content Include="Assets\plugins\ckeditor\CHANGES.md" />
     <Content Include="Assets\plugins\ckeditor\LICENSE.md" />
     <Content Include="Assets\plugins\ckeditor\plugins\scayt\LICENSE.md" />
@@ -1114,6 +1114,31 @@
     <Content Include="Models\Entity\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Round_Volunteer_NotTest.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Round_Volunteer_Tested.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Round_Volunteer_Cancer.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Detail_Round_Volunteer.cshtml" />
+    <Content Include="Areas\Admin\Views\Volunteer\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Volunteer\VolunteerNotTest.cshtml" />
+    <Content Include="Areas\Admin\Views\Volunteer\Person.cshtml" />
+    <Content Include="Areas\Admin\Views\Volunteer\AddPerson.cshtml" />
+    <Content Include="Areas\Admin\Views\Volunteer\EditPerson.cshtml" />
+    <Content Include="Areas\Admin\Views\Journey\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Journey\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Journey\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Material\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Material\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Material\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Purchase\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Purchase\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Purchase\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Login.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\ListMaterial_Support.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\ListVolunteer.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -1139,20 +1164,20 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\AddVolunteer.cshtml" />
     <Content Include="Views\Home\EditVolunteer.cshtml" />
-    <Content Include="Views\Volunteer\Index.cshtml" />
     <Content Include="Views\Volunteer\AddVolunteer.cshtml" />
-    <Content Include="Views\Volunteer\EditVolunteer.cshtml" />
-    <Content Include="Views\Volunteer\Person.cshtml" />
-    <Content Include="Views\Volunteer\AddPerson.cshtml" />
-    <Content Include="Views\Volunteer\EditPerson.cshtml" />
     <Content Include="Views\Journey\Index.cshtml" />
     <Content Include="Views\Journey\Edit.cshtml" />
     <Content Include="Views\Journey\Add.cshtml" />
+    <Content Include="Views\Home\ListVolunteer.cshtml" />
+    <Content Include="Views\Home\ListMaterial_Support.cshtml" />
+    <Content Include="Views\Home\JoinVolunteer.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Review\Index.cshtml" />
+    <Content Include="Views\Home\Volunteer_Joining.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Business\" />
-    <Folder Include="Models\DTO\" />
+    <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Journeys">
       <EntityTypeMapping TypeName="VolunteerModel.Journey">
         <MappingFragment StoreEntitySet="Journey">
+          <ScalarProperty Name="Journey_Name" ColumnName="Journey_Name" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Location_Go" ColumnName="Location_Go" />
@@ -18,6 +19,8 @@
     <EntitySetMapping Name="Materials">
       <EntityTypeMapping TypeName="VolunteerModel.Material">
         <MappingFragment StoreEntitySet="Material">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Volunteers_ID" ColumnName="Volunteers_ID" />
           <ScalarProperty Name="Form" ColumnName="Form" />
@@ -58,6 +61,7 @@
     <EntitySetMapping Name="Purchases">
       <EntityTypeMapping TypeName="VolunteerModel.Purchase">
         <MappingFragment StoreEntitySet="Purchase">
+          <ScalarProperty Name="Material_ID" ColumnName="Material_ID" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Volunteers_ID" ColumnName="Volunteers_ID" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
@@ -69,6 +73,14 @@
     <EntitySetMapping Name="Round_Volunteer">
       <EntityTypeMapping TypeName="VolunteerModel.Round_Volunteer">
         <MappingFragment StoreEntitySet="Round_Volunteer">
+          <ScalarProperty Name="Volunteers_ID" ColumnName="Volunteers_ID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="ReasonNotTest" ColumnName="ReasonNotTest" />
+          <ScalarProperty Name="ReasonCancer" ColumnName="ReasonCancer" />
+          <ScalarProperty Name="MaxPeople" ColumnName="MaxPeople" />
+          <ScalarProperty Name="MinPeople" ColumnName="MinPeople" />
+          <ScalarProperty Name="Dealine_Register" ColumnName="Dealine_Register" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="Place" ColumnName="Place" />
@@ -76,7 +88,6 @@
           <ScalarProperty Name="EndDate" ColumnName="EndDate" />
           <ScalarProperty Name="Register" ColumnName="Register" />
           <ScalarProperty Name="Journey_ID" ColumnName="Journey_ID" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -94,6 +105,8 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="VolunteerModel.User">
         <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="Volunteers_ID" ColumnName="Volunteers_ID" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Account" ColumnName="Account" />
           <ScalarProperty Name="Password" ColumnName="Password" />
@@ -106,6 +119,8 @@
     <EntitySetMapping Name="Volunteers">
       <EntityTypeMapping TypeName="VolunteerModel.Volunteer">
         <MappingFragment StoreEntitySet="Volunteers">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Fullname" ColumnName="Fullname" />
           <ScalarProperty Name="Birthday" ColumnName="Birthday" />
@@ -144,7 +159,21 @@
     <EntitySetMapping Name="Joins">
       <EntityTypeMapping TypeName="VolunteerModel.Join">
         <MappingFragment StoreEntitySet="Join">
+          <ScalarProperty Name="Rolename" ColumnName="Rolename" />
           <ScalarProperty Name="Volunteers_ID" ColumnName="Volunteers_ID" />
+          <ScalarProperty Name="Round_Volunteer_ID" ColumnName="Round_Volunteer_ID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reviews">
+      <EntityTypeMapping TypeName="VolunteerModel.Review">
+        <MappingFragment StoreEntitySet="Review">
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Point" ColumnName="Point" />
+          <ScalarProperty Name="Standard_3" ColumnName="Standard_3" />
+          <ScalarProperty Name="Standard_2" ColumnName="Standard_2" />
+          <ScalarProperty Name="Standard_1" ColumnName="Standard_1" />
           <ScalarProperty Name="Round_Volunteer_ID" ColumnName="Round_Volunteer_ID" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>

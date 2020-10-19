@@ -39,12 +39,11 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Tên hành trình</th>
                                     <th>Điểm đi</th>
                                     <th>Đích đến</th>
                                     <th>Ngày bắt đầu</th>
                                     <th>Ngày kết thúc</th>
-                                    <th>TNV đăng ký</th>
-                                    <th>TNV tham gia</th>
                                     <th>Trạng thái</th>
                                     <th></th>
                                 </tr>
@@ -55,12 +54,11 @@
                                     dem++;
                                     <tr>
                                         <td>@dem</td>
+                                        <td>@item.Journey_Name</td>
                                         <td>@item.Location_Go</td>
                                         <td>@item.Destination</td>
                                         <td>@item.StartDate.Value.ToString("dd/MM/yyyy")</td>
                                         <td>@item.EndDate.Value.ToString("dd/MM/yyyy")</td>
-                                        <td>@item.Resgister</td>
-                                        <td>@item.Join</td>
                                         <td>
                                             @if (item.Status == 0)
                                             {
@@ -87,12 +85,11 @@
                             <tfoot>
                                 <tr>
                                     <th>#</th>
+                                    <th>Tên hành trình</th>
                                     <th>Điểm đi</th>
                                     <th>Đích đến</th>
                                     <th>Ngày bắt đầu</th>
                                     <th>Ngày kết thúc</th>
-                                    <th>TNV đăng ký</th>
-                                    <th>TNV tham gia</th>
                                     <th>Trạng thái</th>
                                     <th></th>
                                 </tr>

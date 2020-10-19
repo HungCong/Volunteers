@@ -36,7 +36,23 @@
                                 <label>Số điện thoại</label>
                                 <input type="number" class="form-control" name="Phone" placeholder="Nhập số điện thoại">
                             </div>
+                           
                             <div class="col-lg-6 form-group">
+                                <label>
+                                    Giới tính
+                                </label>
+                                <div class="input-group">
+                                    <label style="padding-right: 20px;">
+                                        <input type="radio" value="true" name="Sex" class="minimal" checked />
+                                        Nam
+                                    </label>
+                                    <label>
+                                        <input type="radio" value="false" name="Sex" class="minimal" />
+                                        Nữ
+                                    </label>
+                                </div><!-- /.input group -->
+                            </div>
+                             <div class="col-lg-6 form-group">
                                 <label>Ngày sinh:</label>
                                 <div class="input-group">
                                     <div class="input-group-addon">
@@ -50,20 +66,23 @@
                                 <input type="text" class="form-control" name="Email" placeholder="Nhập Email">
                             </div>
                             <div class="col-lg-6 form-group">
-                                <label>Địa chỉ</label>
-                                <input type="text" class="form-control" name="Address" placeholder="Nhập địa chỉ">
-                            </div>
-                            <div class="col-lg-6 form-group">
                                 <label>Vai trò</label>
                                 <select class="form-control select2" name="RoleName">
                                     <option value="Tình nguyện viên" selected="selected">Tình nguyện viên</option>
                                     <option value="Trưởng nhóm">Trưởng nhóm</option>
                                 </select>
                             </div><!-- /.form-group -->
+                             <div class="col-lg-12 form-group">
+                                <label>Địa chỉ</label>
+                                <input type="text" class="form-control" name="Address" placeholder="Nhập địa chỉ">
+                            </div>
                         </div><!-- /.box-body -->
 
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-primary">Thêm mới</button>
+                            <div class="col-lg-5"></div>
+                            <div class="col-lg-6">
+                                <button type="submit" class="btn btn-primary btn-lg">Thêm mới</button>
+                            </div>
                         </div>
                     }
                 </div><!-- /.box -->

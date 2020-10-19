@@ -37,6 +37,7 @@ namespace Volunteers.Models.Entity
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Volunteer> Volunteers { get; set; }
         public virtual DbSet<Join> Joins { get; set; }
+        public virtual DbSet<Review> Reviews { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

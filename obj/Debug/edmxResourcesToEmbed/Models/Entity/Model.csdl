@@ -13,6 +13,7 @@
     <Property Name="Join" Type="Int32" />
     <NavigationProperty Name="Round_Volunteer" Relationship="Self.FK_Round_Volunteer_Journey" FromRole="Journey" ToRole="Round_Volunteer" />
     <Property Name="Status" Type="Int32" />
+    <Property Name="Journey_Name" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Material">
     <Key>
@@ -27,6 +28,9 @@
     <Property Name="Place" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Material_Support" Relationship="Self.FK_Material_Support_Material" FromRole="Material" ToRole="Material_Support" />
     <NavigationProperty Name="Volunteer" Relationship="Self.FK_Material_Volunteers" FromRole="Material" ToRole="Volunteers" />
+    <NavigationProperty Name="Purchases" Relationship="VolunteerModel.FK_Purchase_Material" FromRole="Material" ToRole="Purchase" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="Status" Type="Boolean" />
   </EntityType>
   <EntityType Name="Material_Support">
     <Key>
@@ -66,6 +70,8 @@
     <Property Name="Place" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Volunteer" Relationship="Self.FK_Purchase_Volunteers" FromRole="Purchase" ToRole="Volunteers" />
+    <Property Name="Material_ID" Type="Int64" />
+    <NavigationProperty Name="Material" Relationship="VolunteerModel.FK_Purchase_Material" FromRole="Purchase" ToRole="Material" />
   </EntityType>
   <EntityType Name="Round_Volunteer">
     <Key>
@@ -78,11 +84,20 @@
     <Property Name="EndDate" Type="DateTime" Precision="3" />
     <Property Name="Register" Type="Int32" />
     <Property Name="Journey_ID" Type="Int64" />
-    <Property Name="Status" Type="Boolean" />
     <NavigationProperty Name="Journey" Relationship="Self.FK_Round_Volunteer_Journey" FromRole="Round_Volunteer" ToRole="Journey" />
     <NavigationProperty Name="Material_Support" Relationship="Self.FK_Material_Support_Round_Volunteer" FromRole="Round_Volunteer" ToRole="Material_Support" />
     <NavigationProperty Name="People" Relationship="Self.FK_People_Round_Volunteer" FromRole="Round_Volunteer" ToRole="People" />
     <NavigationProperty Name="Joins" Relationship="VolunteerModel.FK_Join_Round_Volunteer" FromRole="Round_Volunteer" ToRole="Join" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Dealine_Register" Type="DateTime" Precision="3" />
+    <Property Name="MinPeople" Type="Int32" />
+    <Property Name="MaxPeople" Type="Int32" />
+    <Property Name="ReasonCancer" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
+    <Property Name="ReasonNotTest" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Reviews" Relationship="VolunteerModel.FK_Review_Round_Volunteer" FromRole="Round_Volunteer" ToRole="Review" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="Volunteers_ID" Type="Int64" />
+    <NavigationProperty Name="Volunteer" Relationship="VolunteerModel.FK_Round_Volunteer_Volunteers" FromRole="Round_Volunteer" ToRole="Volunteer" />
   </EntityType>
   <EntityType Name="sysdiagram">
     <Key>
@@ -104,6 +119,9 @@
     <Property Name="Fullname" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="Image" Type="String" MaxLength="250" FixedLength="true" Unicode="true" />
     <Property Name="Status" Type="Boolean" />
+    <Property Name="Type" Type="Int32" />
+    <Property Name="Volunteers_ID" Type="Int64" />
+    <NavigationProperty Name="Volunteer" Relationship="VolunteerModel.FK_User_Volunteers" FromRole="User" ToRole="Volunteer" />
   </EntityType>
   <EntityType Name="Volunteer">
     <Key>
@@ -120,6 +138,10 @@
     <NavigationProperty Name="Materials" Relationship="Self.FK_Material_Volunteers" FromRole="Volunteers" ToRole="Material" />
     <NavigationProperty Name="Purchases" Relationship="Self.FK_Purchase_Volunteers" FromRole="Volunteers" ToRole="Purchase" />
     <NavigationProperty Name="Joins" Relationship="VolunteerModel.FK_Join_Volunteers" FromRole="Volunteer" ToRole="Join" />
+    <Property Name="Sex" Type="Boolean" />
+    <Property Name="Status" Type="Boolean" />
+    <NavigationProperty Name="Round_Volunteer" Relationship="VolunteerModel.FK_Round_Volunteer_Volunteers" FromRole="Volunteer" ToRole="Round_Volunteer" />
+    <NavigationProperty Name="Users" Relationship="VolunteerModel.FK_User_Volunteers" FromRole="Volunteer" ToRole="User" />
   </EntityType>
   <Association Name="FK_Round_Volunteer_Journey">
     <End Role="Journey" Type="Self.Journey" Multiplicity="0..1" />
@@ -266,6 +288,23 @@
       <End Role="Volunteer" EntitySet="Volunteers" />
       <End Role="Join" EntitySet="Joins" />
     </AssociationSet>
+    <AssociationSet Name="FK_Purchase_Material" Association="VolunteerModel.FK_Purchase_Material">
+      <End Role="Material" EntitySet="Materials" />
+      <End Role="Purchase" EntitySet="Purchases" />
+    </AssociationSet>
+    <EntitySet Name="Reviews" EntityType="VolunteerModel.Review" />
+    <AssociationSet Name="FK_Review_Round_Volunteer" Association="VolunteerModel.FK_Review_Round_Volunteer">
+      <End Role="Round_Volunteer" EntitySet="Round_Volunteer" />
+      <End Role="Review" EntitySet="Reviews" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Round_Volunteer_Volunteers" Association="VolunteerModel.FK_Round_Volunteer_Volunteers">
+      <End Role="Volunteer" EntitySet="Volunteers" />
+      <End Role="Round_Volunteer" EntitySet="Round_Volunteer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Volunteers" Association="VolunteerModel.FK_User_Volunteers">
+      <End Role="Volunteer" EntitySet="Volunteers" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
     <Property Type="Int32" Name="version" Nullable="true" />
@@ -287,6 +326,7 @@
     <Property Name="Volunteers_ID" Type="Int64" />
     <NavigationProperty Name="Round_Volunteer" Relationship="VolunteerModel.FK_Join_Round_Volunteer" FromRole="Join" ToRole="Round_Volunteer" />
     <NavigationProperty Name="Volunteer" Relationship="VolunteerModel.FK_Join_Volunteers" FromRole="Join" ToRole="Volunteer" />
+    <Property Name="Rolename" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
   </EntityType>
   <Association Name="FK_Join_Round_Volunteer">
     <End Type="VolunteerModel.Round_Volunteer" Role="Round_Volunteer" Multiplicity="0..1" />
@@ -308,6 +348,67 @@
         <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="Join">
+        <PropertyRef Name="Volunteers_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Purchase_Material">
+    <End Type="VolunteerModel.Material" Role="Material" Multiplicity="0..1" />
+    <End Type="VolunteerModel.Purchase" Role="Purchase" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Material">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Purchase">
+        <PropertyRef Name="Material_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Review">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" />
+    <Property Name="Round_Volunteer_ID" Type="Int64" />
+    <Property Name="Standard_1" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Standard_2" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Standard_3" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Point" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Round_Volunteer" Relationship="VolunteerModel.FK_Review_Round_Volunteer" FromRole="Review" ToRole="Round_Volunteer" />
+  </EntityType>
+  <Association Name="FK_Review_Round_Volunteer">
+    <End Type="VolunteerModel.Round_Volunteer" Role="Round_Volunteer" Multiplicity="0..1" />
+    <End Type="VolunteerModel.Review" Role="Review" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Round_Volunteer">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="Round_Volunteer_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Round_Volunteer_Volunteers">
+    <End Type="VolunteerModel.Volunteer" Role="Volunteer" Multiplicity="0..1" />
+    <End Type="VolunteerModel.Round_Volunteer" Role="Round_Volunteer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Volunteer">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Round_Volunteer">
+        <PropertyRef Name="Volunteers_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Volunteers">
+    <End Type="VolunteerModel.Volunteer" Role="Volunteer" Multiplicity="0..1" />
+    <End Type="VolunteerModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Volunteer">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="User">
         <PropertyRef Name="Volunteers_ID" />
       </Dependent>
     </ReferentialConstraint>

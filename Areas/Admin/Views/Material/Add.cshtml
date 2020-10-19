@@ -1,0 +1,146 @@
+﻿
+
+@{
+    ViewBag.Title = "Thêm mới vật chất tình nguyện";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var lstVolunteer = ViewBag.lstVolunteer as List<Volunteers.Models.Entity.Volunteer>;
+}
+
+<div class="content-wrapper" style="min-height: 946px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Thêm mới vật chất tình nguyện
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/Admin/Material"><i class="fa fa-table"></i> Quản lý vật chất tình nguyện</a></li>
+            <li class="active">Thêm mới vật chất</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-8">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <!-- form start -->
+                    @using (Html.BeginForm("AddMaterial", "Material", FormMethod.Post, new { id = "frmAdd" }))
+                    {
+                        <div class="box-body">
+                            <div class="col-lg-6 form-group">
+                                <label>Người ủng hộ</label>
+                                <select class="form-control select2" name="Volunteers_ID">
+                                    <option value="" selected="selected">--Chọn người ủng hộ--</option>
+                                    @foreach (var item in lstVolunteer)
+                                    {
+                                        <option value="@item.ID">@item.Fullname</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <label>Hình thức ủng hộ</label>
+                                <select class="form-control select2" name="Form" id="Form">
+                                    <option value="Hiện vật" selected="selected">Hiện vật</option>
+                                    <option value="Tiền mặt">Tiền mặt</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <label>Tên vật chất</label>
+                                <input type="text" class="form-control" id="Material_Name" name="Material_Name" placeholder="Nhập tên vật chất">
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <label>Số lượng</label>
+                                <input type="number" class="form-control" id="Quantity" name="Quantity" placeholder="Nhập số lượng">
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <label>Số tiền</label>
+                                <input type="number" class="form-control" id="TotalMoney" name="TotalMoney" placeholder="Nhập số tiền ủng hộ">
+                            </div>
+
+                            <div class="col-lg-6 form-group">
+                                <label>Địa điểm</label>
+                                <input type="text" class="form-control" name="Place" placeholder="Nhập địa điểm ủng hộ">
+                            </div>
+                        </div><!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <div class="col-lg-5"></div>
+                            <div class="col-lg-6">
+                                <button type="submit" class="btn btn-primary btn-lg">Thêm mới</button>
+                            </div>
+                        </div>
+                    }
+                </div><!-- /.box -->
+
+            </div><!--/.col (left) -->
+        </div>   <!-- /.row -->
+    </section><!-- /.content -->
+</div>
+
+@section jsAdmin{
+
+    <script>
+
+        if ($('#Form').val() == "Hiện vật") {
+            document.getElementById("TotalMoney").disabled = true;
+            $('input[name="Material_Name"]').val("");
+            document.getElementById("Material_Name").disabled = false;
+            $('#Quantity').attr("required");
+            document.getElementById("Quantity").disabled = false;
+            $('#TotalMoney').removeAttr("required");
+        } else {
+            document.getElementById("TotalMoney").disabled = false;
+            $('#TotalMoney').attr("required");
+            $('input[name="Material_Name"]').val("Tiền mặt");
+            document.getElementById("Material_Name").disabled = true;
+            document.getElementById("Quantity").disabled = true;
+            $('#Quantity').removeAttr("required");
+        }
+        $(function () {
+
+            $('#Form').change(function () {
+                //var value = $(this).val();
+                if ($(this).val() == "Hiện vật") {
+                    document.getElementById("TotalMoney").disabled = true;
+                    $('#Material_Name').val("");
+                    document.getElementById("Material_Name").disabled = false;
+                    $('#Quantity').attr("required");
+                    document.getElementById("Quantity").disabled = false;
+                    $('#TotalMoney').removeAttr("required");
+                } else {
+                    document.getElementById("TotalMoney").disabled = false;
+                    $('#TotalMoney').attr("required");
+                    $('#Material_Name').val("Tiền mặt");
+                    document.getElementById("Material_Name").disabled = true;
+                    document.getElementById("Quantity").disabled = true;
+                    $('#Quantity').removeAttr("required");
+                }
+                console.log($(this).val());
+            });
+
+             // add the rule here
+            $.validator.addMethod("select_validate", function (value, element, arg) {
+                return arg !== value;
+            }, "Value must not equal arg.");
+            //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+            $("#frmAdd").validate({
+                rules: {
+                    Place: "required",
+                    Material_Name: "required",
+                    Volunteers_ID: { select_validate: "" }
+                },
+                messages: {
+                    Place: "Vui lòng địa điểm",
+                    Material_Name: "Bạn chưa tên vật chất",
+                    Volunteers_ID: { select_validate: "Bạn chưa chọn người ủng hộ!" }
+                }
+            });
+        });
+    </script>
+
+}
+
+
+

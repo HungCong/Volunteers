@@ -20,6 +20,7 @@ namespace Volunteers.Models.Entity
             this.Material_Support = new HashSet<Material_Support>();
             this.People = new HashSet<Person>();
             this.Joins = new HashSet<Join>();
+            this.Reviews = new HashSet<Review>();
         }
     
         public long ID { get; set; }
@@ -29,7 +30,14 @@ namespace Volunteers.Models.Entity
         public Nullable<System.DateTime> EndDate { get; set; }
         public Nullable<int> Register { get; set; }
         public Nullable<long> Journey_ID { get; set; }
-        public Nullable<bool> Status { get; set; }
+        public string Description { get; set; }
+        public Nullable<System.DateTime> Dealine_Register { get; set; }
+        public Nullable<int> MinPeople { get; set; }
+        public Nullable<int> MaxPeople { get; set; }
+        public string ReasonCancer { get; set; }
+        public string ReasonNotTest { get; set; }
+        public Nullable<int> Status { get; set; }
+        public Nullable<long> Volunteers_ID { get; set; }
     
         public virtual Journey Journey { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -38,5 +46,8 @@ namespace Volunteers.Models.Entity
         public virtual ICollection<Person> People { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Join> Joins { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual Volunteer Volunteer { get; set; }
     }
 }

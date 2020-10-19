@@ -73,7 +73,7 @@ E:\Part time\New Project\Volunteers\bin\System.Web.WebPages.Razor.xml
 E:\Part time\New Project\Volunteers\bin\Newtonsoft.Json.xml
 E:\Part time\New Project\Volunteers\bin\Antlr3.Runtime.pdb
 E:\Part time\New Project\Volunteers\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-E:\Part time\New Project\Volunteers\obj\Debug\Volunteers.csprojAssemblyReference.cache
 E:\Part time\New Project\Volunteers\obj\Debug\Volunteers.csproj.CopyComplete
 E:\Part time\New Project\Volunteers\obj\Debug\Volunteers.dll
 E:\Part time\New Project\Volunteers\obj\Debug\Volunteers.pdb
+E:\Part time\New Project\Volunteers\obj\Debug\Volunteers.csprojAssemblyReference.cache

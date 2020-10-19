@@ -7,12 +7,14 @@
     <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Round_Volunteer_ID" Type="bigint" />
     <Property Name="Volunteers_ID" Type="bigint" />
+    <Property Name="Rolename" Type="nvarchar" MaxLength="250" />
   </EntityType>
   <EntityType Name="Journey">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Journey_Name" Type="nvarchar" MaxLength="450" />
     <Property Name="Location_Go" Type="nvarchar" MaxLength="250" />
     <Property Name="Destination" Type="nvarchar" MaxLength="250" />
     <Property Name="StartDate" Type="datetime" />
@@ -32,6 +34,8 @@
     <Property Name="Material_Name" Type="nvarchar" MaxLength="250" />
     <Property Name="CreatedDate" Type="datetime" />
     <Property Name="Place" Type="nvarchar" MaxLength="350" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="Status" Type="bit" />
   </EntityType>
   <EntityType Name="Material_Support">
     <Key>
@@ -67,6 +71,19 @@
     <Property Name="CreatedDate" Type="datetime" />
     <Property Name="Place" Type="nvarchar" MaxLength="250" />
     <Property Name="Description" Type="nvarchar" MaxLength="350" />
+    <Property Name="Material_ID" Type="bigint" />
+  </EntityType>
+  <EntityType Name="Review">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Round_Volunteer_ID" Type="bigint" />
+    <Property Name="Standard_1" Type="nvarchar" MaxLength="250" />
+    <Property Name="Standard_2" Type="nvarchar" MaxLength="250" />
+    <Property Name="Standard_3" Type="nvarchar" MaxLength="250" />
+    <Property Name="Point" Type="int" />
+    <Property Name="CreatedDate" Type="datetime" />
   </EntityType>
   <EntityType Name="Round_Volunteer">
     <Key>
@@ -74,12 +91,19 @@
     </Key>
     <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="Description" Type="ntext" />
     <Property Name="Place" Type="nvarchar" MaxLength="250" />
     <Property Name="StartDate" Type="datetime" />
     <Property Name="EndDate" Type="datetime" />
     <Property Name="Register" Type="int" />
+    <Property Name="Dealine_Register" Type="datetime" />
+    <Property Name="MinPeople" Type="int" />
+    <Property Name="MaxPeople" Type="int" />
     <Property Name="Journey_ID" Type="bigint" />
-    <Property Name="Status" Type="bit" />
+    <Property Name="ReasonCancer" Type="nvarchar" MaxLength="450" />
+    <Property Name="ReasonNotTest" Type="nvarchar" MaxLength="450" />
+    <Property Name="Volunteers_ID" Type="bigint" />
+    <Property Name="Status" Type="int" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -100,6 +124,8 @@
     <Property Name="Password" Type="nchar" MaxLength="250" />
     <Property Name="Fullname" Type="nvarchar" MaxLength="250" />
     <Property Name="Image" Type="nchar" MaxLength="250" />
+    <Property Name="Type" Type="int" />
+    <Property Name="Volunteers_ID" Type="bigint" />
     <Property Name="Status" Type="bit" />
   </EntityType>
   <EntityType Name="Volunteers">
@@ -109,11 +135,13 @@
     <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Fullname" Type="nvarchar" MaxLength="250" />
     <Property Name="Birthday" Type="datetime" />
+    <Property Name="Sex" Type="bit" />
     <Property Name="Phone" Type="nchar" MaxLength="100" />
     <Property Name="Email" Type="nchar" MaxLength="250" />
     <Property Name="Address" Type="nvarchar" MaxLength="450" />
     <Property Name="Type" Type="int" />
     <Property Name="RoleName" Type="nvarchar" MaxLength="250" />
+    <Property Name="Status" Type="bit" />
   </EntityType>
   <Association Name="FK_Join_Round_Volunteer">
     <End Role="Round_Volunteer" Type="Self.Round_Volunteer" Multiplicity="0..1" />
@@ -187,6 +215,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Purchase_Material">
+    <End Role="Material" Type="Self.Material" Multiplicity="0..1" />
+    <End Role="Purchase" Type="Self.Purchase" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Material">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Purchase">
+        <PropertyRef Name="Material_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Purchase_Volunteers">
     <End Role="Volunteers" Type="Self.Volunteers" Multiplicity="0..1" />
     <End Role="Purchase" Type="Self.Purchase" Multiplicity="*" />
@@ -199,6 +239,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Review_Round_Volunteer">
+    <End Role="Round_Volunteer" Type="Self.Round_Volunteer" Multiplicity="0..1" />
+    <End Role="Review" Type="Self.Review" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Round_Volunteer">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="Round_Volunteer_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Round_Volunteer_Journey">
     <End Role="Journey" Type="Self.Journey" Multiplicity="0..1" />
     <End Role="Round_Volunteer" Type="Self.Round_Volunteer" Multiplicity="*" />
@@ -208,6 +260,30 @@
       </Principal>
       <Dependent Role="Round_Volunteer">
         <PropertyRef Name="Journey_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Round_Volunteer_Volunteers">
+    <End Role="Volunteers" Type="Self.Volunteers" Multiplicity="0..1" />
+    <End Role="Round_Volunteer" Type="Self.Round_Volunteer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Volunteers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Round_Volunteer">
+        <PropertyRef Name="Volunteers_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Volunteers">
+    <End Role="Volunteers" Type="Self.Volunteers" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Volunteers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="Volunteers_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -249,6 +325,7 @@
     <EntitySet Name="Material_Support" EntityType="Self.Material_Support" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="People" EntityType="Self.People" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Purchase" EntityType="Self.Purchase" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Round_Volunteer" EntityType="Self.Round_Volunteer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -277,13 +354,29 @@
       <End Role="Round_Volunteer" EntitySet="Round_Volunteer" />
       <End Role="People" EntitySet="People" />
     </AssociationSet>
+    <AssociationSet Name="FK_Purchase_Material" Association="Self.FK_Purchase_Material">
+      <End Role="Material" EntitySet="Material" />
+      <End Role="Purchase" EntitySet="Purchase" />
+    </AssociationSet>
     <AssociationSet Name="FK_Purchase_Volunteers" Association="Self.FK_Purchase_Volunteers">
       <End Role="Volunteers" EntitySet="Volunteers" />
       <End Role="Purchase" EntitySet="Purchase" />
     </AssociationSet>
+    <AssociationSet Name="FK_Review_Round_Volunteer" Association="Self.FK_Review_Round_Volunteer">
+      <End Role="Round_Volunteer" EntitySet="Round_Volunteer" />
+      <End Role="Review" EntitySet="Review" />
+    </AssociationSet>
     <AssociationSet Name="FK_Round_Volunteer_Journey" Association="Self.FK_Round_Volunteer_Journey">
       <End Role="Journey" EntitySet="Journey" />
       <End Role="Round_Volunteer" EntitySet="Round_Volunteer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Round_Volunteer_Volunteers" Association="Self.FK_Round_Volunteer_Volunteers">
+      <End Role="Volunteers" EntitySet="Volunteers" />
+      <End Role="Round_Volunteer" EntitySet="Round_Volunteer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Volunteers" Association="Self.FK_User_Volunteers">
+      <End Role="Volunteers" EntitySet="Volunteers" />
+      <End Role="User" EntitySet="User" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

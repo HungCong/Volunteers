@@ -17,6 +17,7 @@ namespace Volunteers.Models.Entity
         public long ID { get; set; }
         public Nullable<long> Round_Volunteer_ID { get; set; }
         public Nullable<long> Volunteers_ID { get; set; }
+        public string Rolename { get; set; }
     
         public virtual Round_Volunteer Round_Volunteer { get; set; }
         public virtual Volunteer Volunteer { get; set; }

@@ -28,6 +28,7 @@ namespace Volunteers.Models.Entity
         public Nullable<int> Resgister { get; set; }
         public Nullable<int> Join { get; set; }
         public Nullable<int> Status { get; set; }
+        public string Journey_Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Round_Volunteer> Round_Volunteer { get; set; }

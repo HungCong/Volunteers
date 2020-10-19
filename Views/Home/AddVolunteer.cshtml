@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Thêm mới đợt tình nguyện";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var lstJourney = ViewBag.lstJourney as List<Volunteers.Models.Entity.Journey>;
 }
 
 <div class="content-wrapper" style="min-height: 946px;">
@@ -28,16 +29,31 @@
                     @using (Html.BeginForm("Add", "Home", FormMethod.Post, new { id = "frmAdd" }))
                     {
                         <div class="box-body">
+                            <div class="col-lg-12 form-group">
+                                <label>Thuộc hành trình tình nguyện</label>
+                                <select class="form-control select2" name="Journey_ID">
+                                    <option value="" selected="selected">--Chọn hành trình tình nguyện--</option>
+                                    @foreach (var item in lstJourney)
+                                    {
+                                        <option value="@item.ID">@item.Journey_Name => Điểm đi: @item.Location_Go và điểm đến: @item.Destination</option>
+                                    }
+                                </select>
+                            </div>
                             <div class="col-lg-6 form-group">
                                 <label>Địa điểm</label>
                                 <input type="text" class="form-control" name="Place" placeholder="Nhập địa điểm tình nguyện">
                             </div>
                             <div class="col-lg-6 form-group">
-                                <label>Số tình nguyện viên tham gia</label>
-                                <input type="number" class="form-control" name="Register" placeholder="Nhập số tình nguyện tham gia">
+                                <label>Thời hạn đăng ký</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" name="Dealine_Register" class="form-control datepicker" data-inputmask="'alias': 'dd/mm/yyyy'">
+                                </div><!-- /.input group -->
                             </div>
                             <div class="col-lg-6 form-group">
-                                <label>Ngày bắt đầu:</label>
+                                <label>Ngày bắt đầu</label>
                                 <div class="input-group">
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
@@ -46,13 +62,25 @@
                                 </div><!-- /.input group -->
                             </div>
                             <div class="col-lg-6 form-group">
-                                <label>Ngày kết thúc:</label>
+                                <label>Ngày kết thúc</label>
                                 <div class="input-group">
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
                                     <input type="text" name="EndDate" class="form-control datepicker" data-inputmask="'alias': 'dd/mm/yyyy'">
                                 </div><!-- /.input group -->
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <label>Số tình nguyện viên tối thiểu</label>
+                                <input type="number" class="form-control" name="MinPeople" min="10" placeholder="Nhập số tình nguyện tham gia tối thiểu">
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <label>Số tình nguyện viên tối đa</label>
+                                <input type="number" class="form-control" name="MaxPeople" placeholder="Nhập số tình nguyện tham gia tối đa">
+                            </div>
+                            <div class="col-lg-12 form-group">
+                                <label>Mô tả công việc</label>
+                                <textarea class="textarea" name="Description" id="Description" placeholder="Nhập mô tả công việc" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
                             </div>
                         </div><!-- /.box-body -->
 
@@ -72,6 +100,9 @@
     <script>
        
         $(function () {
+
+            CKEDITOR.replace('Description');
+
             var date = new Date();
             var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
             $(".datepicker").datepicker({
@@ -83,19 +114,25 @@
 
             $('.datepicker').datepicker('setDate', today);
 
+             // add the rule here
+            $.validator.addMethod("select_validate", function (value, element, arg) {
+                return arg !== value;
+            }, "Value must not equal arg.");
             //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
             $("#frmAdd").validate({
                 rules: {
                     Place: "required",
                     Register: "required",
                     StartDate: "required",
-                    EndDate: "required"
+                    EndDate: "required",
+                    Journey_ID: { select_validate: "" }
                 },
                 messages: {
                     Place: "Vui lòng địa điểm",
                     Register: "Bạn chưa nhập số tình nguyện viên",
                     StartDate: "Vui lòng nhập ngày bắt đầu",
-                    EndDate: "Bạn chưa nhập ngày kết thúc"
+                    EndDate: "Bạn chưa nhập ngày kết thúc",
+                    Journey_ID:{ select_validate: "Bạn chưa chọn hành trình tình nguyện!" }
                 }
             });
         });

@@ -1,0 +1,84 @@
+﻿
+
+@using Volunteers.Models.Entity;
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Đợt tình nguyện chưa duyệt";
+    var LstVolunteer = ViewBag.LstVolunteer as List<Round_Volunteer>;
+    int dem = 0;
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Đợt tình nguyện đã hủy/không duyệt
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="/Admin/Home/Round_Volunteer_NotTest"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
+            <li class="active">Đợt tình nguyện không duyệt</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Địa điểm</th>
+                                    <th>Bắt đầu ngày</th>
+                                    <th>Kết thúc ngày</th>
+                                    <th>Lý do hủy/không duyệt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in LstVolunteer)
+                                {
+                                    dem++;
+                                    <tr>
+                                        <td>@dem</td>
+                                        <td>@item.Place</td>
+                                        <td>@item.StartDate.Value.ToString("dd/MM/yyyy")</td>
+                                        <td>@item.EndDate.Value.ToString("dd/MM/yyyy")</td>
+                                        @if (item.ReasonCancer != null)
+                                        {
+                                            <td>
+                                                @item.ReasonCancer
+                                            </td>
+                                        }
+                                        else if (item.ReasonNotTest != null)
+                                        {
+                                            <td>
+                                                @item.ReasonNotTest
+                                            </td>
+                                        }
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Địa điểm</th>
+                                    <th>Bắt đầu ngày</th>
+                                    <th>Kết thúc ngày</th>
+                                    <th>Lý do hủy/không duyệt</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+
+

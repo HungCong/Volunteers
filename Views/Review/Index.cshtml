@@ -1,0 +1,231 @@
+﻿@using Volunteers.Models.Entity;
+@using Volunteers.Models.DTO;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Đánh giá đợt tình nguyện";
+    var LstVolunteer = ViewBag.LstVolunteer as List<RoundVolunteerDTO>;
+    var user = Session["user"] as User;
+    int dem = 0;
+}
+
+<!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Đánh giá đợt tình nguyện đã tham gia
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
+                <li class="active">Đánh giá đợt tình nguyện</li>
+            </ol>
+        </section>
+
+
+        @if (LstVolunteer.Count == 0)
+        {
+            <section class="content">
+                <div class="error-page">
+                    <div class="error-content">
+                        <h3><i class="fa fa-warning text-yellow"></i>Opps! Bạn chưa tham gia đợt tình nguyện nào.</h3>
+                        <p>
+                            Bạn có thể tham gia đợt tình nguyện tại:
+                            <a href="/Home/JoinVolunteer">Tham gia đợt tình nguyện</a> Nhấn nút <span class="label label-info">Tham gia</span>
+                            để tham gia vào đợt tình nguyện.
+                        </p>
+                    </div><!-- /.error-content -->
+                </div><!-- /.error-page -->
+            </section>
+        }
+        else
+        {
+            <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        @if (TempData["add_success"] != null)
+                        {
+                            <div class="alert alert-success text-center" id="AlertBox">
+                                @TempData["add_success"]
+                            </div>
+                        }
+                        <div class="box-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Địa điểm</th>
+                                        <th>Bắt đầu ngày</th>
+                                        <th>Kết thúc ngày</th>
+                                        <th>Số tình nguyện viên</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in LstVolunteer)
+                                    {
+                                        dem++;
+                                        <tr>
+                                            <td>@dem</td>
+                                            <td>@item.Place</td>
+                                            <td>@item.StartDate.Value.ToString("dd/MM/yyyy")</td>
+                                            <td>@item.EndDate.Value.ToString("dd/MM/yyyy")</td>
+                                            <td>
+                                                @item.Register
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary btnReview" data-id="@item.Round_Volunteer_ID" title="Đánh giá đợt tình nguyện">Đánh giá</button>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Địa điểm</th>
+                                        <th>Bắt đầu ngày</th>
+                                        <th>Kết thúc ngày</th>
+                                        <th>Tình nguyện viên</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div><!-- /.box-body -->
+                    </div><!-- /.box -->
+
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </section><!-- /.content -->
+        }
+        
+    </div><!-- /.content-wrapper -->
+
+<div class="modal" id="addReview">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Đánh giá đợt tình nguyện của bạn</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                @using (Html.BeginForm("AddReview", "Review", FormMethod.Post))
+                {
+                    <input type="hidden" name="Round_Volunteer_ID" id="Round_Volunteer_ID" />
+                    <div class="box-body">
+                        <div class="col-sm-12 form-group">
+                            <label>Điểm đánh giá trưởng đoàn</label>
+                            <div style="color: gold;">
+                                <input type="hidden" name="Point" id="point_review" class="rating" data-filled="fa fa-star fa-3x" data-empty="fa fa-star-o fa-3x" data-start="1" data-stop="5" />
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <h4>Hoạt động này có hữu ích với bạn không ?</h4>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input value="Hữu ích" name="Standard_1" checked type="radio">
+                                        </span>
+                                        Hữu ích
+                                    </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input value="Không hữu ích" name="Standard_1" type="radio">
+                                        </span>
+                                        Không hữu ích
+                                    </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <h4>Hoạt động này có nên tổ chức thường xuyên không?</h4>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input value="Nên" name="Standard_2" checked type="radio">
+                                        </span>
+                                        Nên
+                                    </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input value="Không nên" name="Standard_2" type="radio">
+                                        </span>
+                                        Không nên
+                                    </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <h4>Hoạt động này có nên được tổ chức rộng rãi cho nhiều người tham gia không</h4>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input value="Nên" name="Standard_3" checked type="radio">
+                                        </span>
+                                        Nên
+                                    </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <input value="Không nên" name="Standard_3" type="radio">
+                                        </span>
+                                        Không nên
+                                    </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                            </div>
+                        </div>
+                    </div><!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Gửi</button>
+                    </div>
+                }
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section jsAdmin{
+    <script src="~/Assets/rating.js"></script>
+    <script>
+         //nếu không có thao tác gì thì ẩn đi
+        $('#AlertBox').removeClass('hide');
+
+        //Sau khi hiển thị lên thì delay 1s và cuộn lên trên sử dụng slideup
+        $('#AlertBox').delay(2000).slideUp(500);
+
+
+        $('.rating').on('change', function () {
+            // $(this).next('.label').text($(this).val());
+            // alert($(this).val());
+            $('#point_review').val($(this).val());
+            console.log($(this).val());
+        });
+        $(function () {
+             $('.btnReview').off('click').on('click', function () {
+                 $('#addReview').modal('show');
+                  $('#Round_Volunteer_ID').val($(this).data('id'));
+            });
+        });
+    </script>
+
+}
