@@ -147,6 +147,7 @@
     <Compile Include="Models\DTO\Materal_SupportDTO.cs" />
     <Compile Include="Models\DTO\MaterialDTO.cs" />
     <Compile Include="Models\DTO\PurchaseDTO.cs" />
+    <Compile Include="Models\DTO\ReviewDTO.cs" />
     <Compile Include="Models\DTO\RoundVolunteerDTO.cs" />
     <Compile Include="Models\Entity\Join.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -1174,6 +1175,7 @@
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\Review\Index.cshtml" />
     <Content Include="Views\Home\Volunteer_Joining.cshtml" />
+    <Content Include="Views\Home\ListReview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

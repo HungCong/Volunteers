@@ -67,15 +67,18 @@ namespace Volunteers.Models.Business
         public void UpdateStatus(long ID)
         {
             var round = db.Round_Volunteer.Find(ID);
-            if (round.Dealine_Register > DateTime.Now)
-                round.Status = 2;
-            else if (round.Dealine_Register < DateTime.Now && round.StartDate > DateTime.Now)
-                round.Status = 3;
-            else if (round.StartDate < DateTime.Now && DateTime.Now < round.EndDate)
-                round.Status = 4;
-            else if (DateTime.Now > round.EndDate)
-                round.Status = 5;
-            db.SaveChanges();
+            if(round.Status != 0)
+            {
+                if (round.Dealine_Register > DateTime.Now)
+                    round.Status = 2;
+                else if (round.Dealine_Register < DateTime.Now && round.StartDate > DateTime.Now)
+                    round.Status = 3;
+                else if (round.StartDate < DateTime.Now && DateTime.Now < round.EndDate)
+                    round.Status = 4;
+                else if (DateTime.Now > round.EndDate)
+                    round.Status = 5;
+                db.SaveChanges();
+            }
         }
     }
 }

@@ -231,5 +231,26 @@ namespace Volunteers.Areas.Admin.Controllers
             var mat = db.Material_Support.Find(ID);
             return Json(mat, JsonRequestBehavior.AllowGet);
         }
+
+        //đánh giá đợt tình nguyện
+        public ActionResult ListReview()
+        {
+            var query = from rev in db.Reviews
+                        join round in db.Round_Volunteer on rev.Round_Volunteer_ID equals round.ID
+                        select new ReviewDTO()
+                        {
+                            ID = rev.ID,
+                            Round_Volunteer_Name = round.Place,
+                            StartDate = round.StartDate,
+                            EndDate = round.EndDate,
+                            Standard_1 = rev.Standard_1,
+                            Standard_2 = rev.Standard_2,
+                            Standard_3 = rev.Standard_3,
+                            Point = rev.Point,
+                            CreatedDate = rev.CreatedDate
+                        };
+            ViewBag.lstReview = query.OrderByDescending(x => x.CreatedDate).ToList();
+            return View();
+        }
     }
 }
